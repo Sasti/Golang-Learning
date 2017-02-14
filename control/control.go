@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// Using the for loop to create a "while" like loop.
 func whileloop(runcount int) (mul, sum int) {
 	i := 1
 
@@ -18,21 +19,19 @@ func whileloop(runcount int) (mul, sum int) {
 
 	}
 
-	var intarray [20]int
+	return mul, sum
+}
 
-	intarray[0] = 1
+// This is an example for the for loop used in it's regular form.
+func forloop(runcount int) (mul, sum int) {
+	mul = 1
+	sum = 0
 
-	dynamicslice := make([]int, 0, 30)
-	second := dynamicslice[15:20]
-
-	//Slice Bestandteile
-	// *int startArray
-	// int len
-	// int cap
-
-	append(second, 5)
-
-	fmt.Println(second)
+	// Initializes a control variable i (int); compares with runcount; increments i after one iteration.
+	for i := 0; i < runcount; i++ {
+		mul *= i
+		sum += i
+	}
 
 	return mul, sum
 }
@@ -41,4 +40,8 @@ func main() {
 	mul, sum := whileloop(5)
 
 	fmt.Printf("Our whileloop returns for input 5 mul = %d and sum = %d. \n", mul, sum)
+
+	mulfromfor, sumfromfor := forloop(20)
+
+	fmt.Printf("Our for returns for input 20 mul = %d and sum = %d. \n", mulfromfor, sumfromfor)
 }
