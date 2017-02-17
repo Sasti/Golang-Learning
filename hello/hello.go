@@ -25,6 +25,19 @@ func (i mygreatint) String() string {
 	return fmt.Sprintf("%d", i)
 }
 
+func nononmepty(strings []string) []string {
+	i := 0
+
+	for _, s := range strings {
+		if s != "" {
+			strings[i] = s
+			i++
+		}
+	}
+
+	return strings[:i]
+}
+
 func main() {
 	var vec2 Vector2D
 	vec2.x = 1
@@ -37,4 +50,16 @@ func main() {
 
 	var myint mygreatint = 666
 	fmt.Printf("%s \n", string(myint))
+
+	integerSlice := make([]int, 3)
+
+	integerSlice[0] = 1
+	integerSlice[1] = 2
+	integerSlice[2] = 3
+
+	integerSlicesliced := integerSlice[0:2]
+
+	fmt.Printf("slice cap: %d slice len: %d \n", cap(integerSlicesliced), len(integerSlicesliced))
+	fmt.Printf("slice position zero: %d \n", integerSlicesliced[2])
+
 }

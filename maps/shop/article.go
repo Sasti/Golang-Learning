@@ -1,6 +1,5 @@
 package shop
 
-import "image"
 import "math/rand"
 import "fmt"
 
@@ -10,7 +9,8 @@ type Article struct {
 	Description string
 	Netto       float32
 	VAT         float32
-	Images      map[string]image.Image
+	Images      map[string]string
+	Variants    []string
 }
 
 // CalculateBrutto calculates the brutto price based on netto and VAT
@@ -32,6 +32,6 @@ func GenerateIDForArticle() uint64 {
 // Implement stringer interface
 func (a *Article) String() string {
 	brutto := a.CalculateBrutto()
-	articlestring := fmt.Sprintf("ArticleID: %d, Price: %f", a.ID, brutto)
+	articlestring := fmt.Sprintf("ArticleID: %d, Price: %f, Description: %s", a.ID, brutto, a.Description)
 	return articlestring
 }
