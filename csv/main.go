@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 )
 
 func main() {
@@ -30,17 +32,59 @@ func main() {
 	// Create a csv Reader to process the data
 	csvReader := csv.NewReader(response.Body)
 
-	// Print all data
-	for {
-		data, err := csvReader.Read()
-		if err == io.EOF {
-			// No more data to read
-			break
-		}
-		if err != nil {
-			log.Fatal(err)
-		}
+	var (
+		lineNum  int
+		valueSum float64
+	)
 
-		fmt.Println(data)
+	{ // Print all data and scavange necessary data for further processing
+		for {
+			data, err := csvReader.Read()
+			if err == io.EOF {
+				// No more data to read
+				break
+			}
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// Print current line
+			fmt.Println(data)
+
+			{ // Scavange data
+				if lineNum >= 1 { // The first row contains no data, it contains the header so we wont evaluate it
+					value, _ := strconv.ParseFloat(data[8], 32)
+					valueSum += value
+				}
+			}
+
+			// Increment line counter
+			lineNum++
+		}
+	}
+
+	// Calculate resutls
+	avarageTemp := valueSum / float64(lineNum)
+
+	{ // Export calculated results as csv file
+		if resultFile, err := os.Create("result.csv"); err == nil {
+			resultWriter := csv.NewWriter(resultFile)
+			defer resultFile.Close()
+			defer resultWriter.Flush()
+
+			header := []string{
+				"element count", "temp sum", "temp average",
+			}
+			resultWriter.Write(header)
+
+			resultline := []string{
+				strconv.FormatInt(int64(lineNum), 10),
+				strconv.FormatFloat(valueSum, 'f', -1, 32),
+				strconv.FormatFloat(avarageTemp, 'f', -1, 32),
+			}
+			resultWriter.Write(resultline)
+		} else {
+			log.Fatalln(err)
+		}
 	}
 }
