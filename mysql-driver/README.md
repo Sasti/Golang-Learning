@@ -18,4 +18,4 @@ For easier usage of the example you will find a docker-compose.yml in this direc
 ## Start the go programm
 You can compile and run the programm without additional tools. For simplicity just use the following command to compile and execute the programm with your locally install go environment.
 
-    go run main.go
+    go run mysql-driver-example.go
