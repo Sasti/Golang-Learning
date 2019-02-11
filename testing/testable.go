@@ -12,7 +12,11 @@ func main() {
 	params := os.Args[1:]
 	sum, err := addNumbers(params...)
 
-	fmt.Println(sum, err)
+	fmt.Println(sum)
+
+	if err != nil {
+		os.Exit(1)
+	}
 }
 
 func addNumbers(nums ...string) (string, error) {

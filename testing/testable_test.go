@@ -2,7 +2,16 @@ package main
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
+
+func Test_addNumbersTestify(t *testing.T) {
+	sum, err := addNumbers("3", "3")
+
+	assert.Nil(t, err, "err should be nil")
+	assert.Equal(t, "6", sum, "they should be equal")
+}
 
 func Test_addNumbers(t *testing.T) {
 	sum, err := addNumbers("3", "3")
